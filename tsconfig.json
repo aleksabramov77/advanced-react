@@ -27,7 +27,12 @@
     // import * as React from 'react';
     // можно писать такой
     // import React from 'react';
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "*": [
+        "./src/*"
+      ]
+    }
   },
   "ts-node": {
     "compilerOptions": {

@@ -1,14 +1,15 @@
 import {Suspense} from "react";
 import {Link, Route, Routes} from "react-router-dom";
-import {AboutPageLazy} from "./pages/AboutPage/AboutPageLazy";
-import {MainPageLazy} from "./pages/MainPage/MainPageLazy";
 
+import {AboutPage} from "pages/AboutPage";
+import {MainPage} from "pages/MainPage";
+import {classNames} from "shared/lib/classNames/classNames";
+
+import {useTheme} from "./providers/ThemeProvider";
 import './styles/index.scss';
-import {useTheme} from "./theme/useTheme";
-import {classNames} from "./helpers/classNames/classNames";
 
 
-const App = () => {
+export const App = () => {
     const {theme, toggleTheme} = useTheme()
 
     return (
@@ -17,13 +18,11 @@ const App = () => {
             <Link to='/about'>О сайте</Link>
             <Suspense fallback={<div>Загрузка...</div>}>
                 <Routes>
-                    <Route path='/about' element={<AboutPageLazy/>}/>
-                    <Route path='/' element={<MainPageLazy/>}/>
+                    <Route path='/about' element={<AboutPage/>}/>
+                    <Route path='/' element={<MainPage/>}/>
                 </Routes>
             </Suspense>
             <button onClick={toggleTheme}>Change theme</button>
         </div>
     );
 };
-
-export default App;
