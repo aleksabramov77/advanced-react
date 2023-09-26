@@ -5,13 +5,14 @@ import {MainPageLazy} from "./pages/MainPage/MainPageLazy";
 
 import './styles/index.scss';
 import {useTheme} from "./theme/useTheme";
+import {classNames} from "./helpers/classNames/classNames";
 
 
 const App = () => {
     const {theme, toggleTheme} = useTheme()
 
     return (
-        <div className={`app ${theme}`}>
+        <div className={classNames("app", {}, [theme])}>
             <Link to='/'>Главная</Link>
             <Link to='/about'>О сайте</Link>
             <Suspense fallback={<div>Загрузка...</div>}>
