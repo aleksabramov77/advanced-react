@@ -1,11 +1,11 @@
-import {createContext} from "react";
+import { createContext } from 'react';
 
 export enum Theme {
     LIGHT = 'light',
     DARK = 'dark',
 }
 
-export interface ThemeContextProps  {
+export interface ThemeContextProps {
     theme?: Theme;
     setTheme?(theme: Theme): void;
 }
