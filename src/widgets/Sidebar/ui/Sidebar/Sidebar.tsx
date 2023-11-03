@@ -18,8 +18,15 @@ export const Sidebar: FC<SidebarProps> = (props) => {
     const handleToggle = useCallback(() => setCollapsed((p) => !p), []);
 
     return (
-        <div className={classNames(cls.root, { [cls.collapsed]: collapsed }, [className])}>
-            <button type="button" onClick={handleToggle}>
+        <div
+            data-testid="sidebar"
+            className={classNames(cls.root, { [cls.collapsed]: collapsed }, [className])}
+        >
+            <button
+                data-testid="sidebar-toggle"
+                type="button"
+                onClick={handleToggle}
+            >
                 {collapsed ? t('Раскрыть') : t('Свернуть')}
             </button>
             <div className={cls.switchers}>
