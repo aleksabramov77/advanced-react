@@ -43,11 +43,17 @@ jobs:
         run: npm run test:unit
         if: always()
 
-
       - name: ⚒️ Build storybook
         run: npm run storybook:build
         if: always()
 
       - name: 🖥️ Screenshot testing
         run: npm run test:ui:ci
+        if: always()
+
+      - name: Upload Loki artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: loki
+          path: .loki
         if: always()
