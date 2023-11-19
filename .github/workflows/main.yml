@@ -51,6 +51,10 @@ jobs:
         run: npm run test:ui:ci
         if: always()
 
+      - name: 🖥️ Screenshot testing report
+        run: npm run test:ui:report
+        if: always()
+
       - name: Upload Loki artifacts
         uses: actions/upload-artifact@v2
         with:

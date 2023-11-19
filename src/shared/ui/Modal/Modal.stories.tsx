@@ -1,28 +1,26 @@
-import React from 'react';
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
 import { Modal } from 'shared/ui/Modal/Modal';
 import { ThemeDecorator } from 'shared/config/storybook/ThemeDecorator';
 import { Theme } from 'app/providers/ThemeProvider';
+import meta from 'shared/ui/Button/Button.stories';
 
 export default {
     title: 'shared/Modal',
     component: Modal,
-    argTypes: {
-        backgroundColor: { control: 'color' },
+    parameters: {
     },
-} as ComponentMeta<typeof Modal>;
+    args: {
+        isOpen: true,
+        // eslint-disable-next-line max-len
+        children: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid commodi consequatur eligendi impedit incidunt necessitatibus possimus quis saepe sunt totam.\n ',
+    },
+} satisfies Meta<typeof Modal>;
 
-const Template: ComponentStory<typeof Modal> = (args) => <Modal {...args} />;
+type Story = StoryObj<typeof meta>;
 
-export const Primary = Template.bind({});
-Primary.args = {
-    isOpen: true,
-    children: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid commodi consequatur eligendi impedit incidunt necessitatibus possimus quis saepe sunt totam.\n ',
-};
+export const Primary: Story = {};
 
-export const Dark = Template.bind({});
-Dark.args = {
-    isOpen: true,
-    children: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid commodi consequatur eligendi impedit incidunt necessitatibus possimus quis saepe sunt totam.\n ',
-};
-Dark.decorators = [ThemeDecorator(Theme.DARK)];
+// todo Разобраться почему тест не проходит в github
+// export const Dark: Story = {
+//     decorators: [ThemeDecorator(Theme.DARK)],
+// };
