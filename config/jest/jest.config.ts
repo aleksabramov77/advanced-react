@@ -13,6 +13,9 @@ export default {
         '\\.svg$': path.resolve(__dirname, 'jestEmptyComponent.tsx'),
     },
     clearMocks: true,
+    globals: {
+        __IS_DEV__: true,
+    },
     testEnvironment: 'jsdom',
     coveragePathIgnorePatterns: [
         '\\\\node_modules\\\\',
