@@ -63,4 +63,9 @@
             height: var(--font-line-xl);
         }
     }
+
+    &.disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
 }

@@ -6,7 +6,10 @@
   "Страница не найдена": "Page not found",
   "Произошла непредвиденная ошибка": "An unexpected error has occurred",
   "Обновить страницу": "Reload page",
-  "Войти": "Enter",
-  "Введите username": "Введите username",
-  "Введите пароль": "Введите пароль"
+  "Войти": "Login",
+  "Введите username": "Enter username",
+  "Введите пароль": "Enter пароль",
+  "Форма авторизации": "Authorization form",
+  "Вы ввели неверный логин или пароль": "You entered wrong username or password",
+  "Выйти": "Logout"
 }

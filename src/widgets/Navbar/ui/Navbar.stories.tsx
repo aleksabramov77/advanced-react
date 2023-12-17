@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ThemeDecorator } from 'shared/config/storybook';
+import { StoreDecorator, ThemeDecorator } from 'shared/config/storybook';
 import { Theme } from 'app/providers/ThemeProvider';
 import { Navbar } from 'widgets/Navbar';
 
@@ -8,6 +8,7 @@ const meta = {
     title: 'widgets/Navbar',
     component: Navbar,
     tags: ['autodocs'],
+    decorators: [StoreDecorator({})],
 } satisfies Meta<typeof Navbar>;
 
 export default meta;
