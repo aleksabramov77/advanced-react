@@ -27,7 +27,7 @@ export const loginByUsername = createAsyncThunk<User, LoginByUsernameArg, {
             return response.data;
         } catch (e) {
             console.log(e);
-            return thunkAPI.rejectWithValue('Error');
+            return thunkAPI.rejectWithValue('error');
         }
     },
 );
