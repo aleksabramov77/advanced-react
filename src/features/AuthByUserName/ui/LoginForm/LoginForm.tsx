@@ -1,14 +1,12 @@
-import {
-    memo, MouseEventHandler, useCallback, useEffect,
-} from 'react';
-import { useDispatch, useSelector, useStore } from 'react-redux';
+import { memo, MouseEventHandler, useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { classNames } from 'shared/lib/classNames/classNames';
 import { Button, ButtonTheme } from 'shared/ui/Button';
 import { Input } from 'shared/ui/Input';
 import { Text, TextTheme } from 'shared/ui/Text';
-import { ReduxStoreWithManager } from 'app/providers/StoreProvider';
 import { DynamicModuleLoader, ReducersList } from 'shared/lib/components/DynamicModuleLoader/DynamicModuleLoader';
+import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 import { getLoginPassword } from '../../model/selectors/getLoginPassword';
 import { getLoginError } from '../../model/selectors/getLoginError';
 import { getLoginIsLoading } from '../../model/selectors/getLoginIsLoading';
@@ -19,15 +17,18 @@ import cls from './LoginForm.module.scss';
 
 export interface LoginFormProps {
     className?: string;
+
+    onSuccess(): void;
 }
 
 const initialReducers: ReducersList = {
     loginForm: loginReducer,
 };
 
-const LoginForm = memo(({ className }: LoginFormProps) => {
+const LoginForm = memo((props: LoginFormProps) => {
+    const { className, onSuccess } = props;
     const { t } = useTranslation();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const username = useSelector(getLoginUserName);
     const password = useSelector(getLoginPassword);
@@ -42,9 +43,13 @@ const LoginForm = memo(({ className }: LoginFormProps) => {
         dispatch(loginActions.setPassword(value));
     }, [dispatch]);
 
-    const handleLoginClick = useCallback<MouseEventHandler<HTMLButtonElement>>(() => {
-        dispatch(loginByUsername({ username, password }));
-    }, [dispatch, password, username]);
+    const handleLoginClick = useCallback<MouseEventHandler<HTMLButtonElement>>(async () => {
+        const result = await dispatch(loginByUsername({ username, password }));
+
+        if (result.meta.requestStatus === 'fulfilled') {
+            onSuccess();
+        }
+    }, [dispatch, onSuccess, password, username]);
 
     return (
         <DynamicModuleLoader

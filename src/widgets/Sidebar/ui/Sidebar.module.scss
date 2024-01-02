@@ -27,23 +27,6 @@
         margin: 20px 0 0 30px;
         display: flex;
         flex-direction: column;
-
-        .item {
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-        }
-
-        .icon {
-            color: var(--inverted-primary-color);
-        }
-
-        .link {
-            margin-left: 10px;
-            white-space: nowrap;
-            opacity: 1;
-            transition: 0.2s opacity;
-        }
     }
 
     &.collapsed {
@@ -56,11 +39,6 @@
 
         .lang {
             margin-left: 0;
-        }
-
-        .link {
-            opacity: 0;
-            width: 0;
         }
     }
 }

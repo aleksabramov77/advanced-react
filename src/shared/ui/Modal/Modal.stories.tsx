@@ -1,14 +1,11 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { Modal } from 'shared/ui/Modal/Modal';
-import { ThemeDecorator } from 'shared/config/storybook/ThemeDecorator';
-import { Theme } from 'app/providers/ThemeProvider';
 import meta from 'shared/ui/Button/Button.stories';
 
 export default {
     title: 'shared/Modal',
     component: Modal,
-    parameters: {
-    },
+    parameters: {},
     args: {
         isOpen: true,
         // eslint-disable-next-line max-len
