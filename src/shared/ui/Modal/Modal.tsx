@@ -1,7 +1,6 @@
-import { classNames } from 'shared/lib/classNames/classNames';
+import { classNames, Mods } from 'shared/lib/classNames/classNames';
 import React, {
-    MouseEventHandler,
-    ReactNode, useCallback, useEffect, useRef, useState,
+    MouseEventHandler, ReactNode, useCallback, useEffect, useRef, useState,
 } from 'react';
 import { Portal } from 'shared/ui/Portal/Portal';
 import { useTheme } from 'app/providers/ThemeProvider';
@@ -12,6 +11,7 @@ interface ModalProps {
     children?: ReactNode;
     isOpen?: boolean;
     isLazy?: boolean;
+
     onClose?(): void;
 }
 
@@ -28,7 +28,7 @@ export const Modal = (props: ModalProps) => {
 
     const [isClosing, setIsClosing] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
-    const timerRef = useRef<ReturnType<typeof setTimeout>>();
+    const timerRef = useRef() as React.MutableRefObject<ReturnType<typeof setTimeout>>;
     const { theme } = useTheme();
 
     const closeHandler = useCallback(() => {
@@ -69,8 +69,8 @@ export const Modal = (props: ModalProps) => {
         }
     }, [isOpen]);
 
-    const mods: Record<string, boolean> = {
-        [cls.opened]: isOpen,
+    const mods: Mods = {
+        [cls.opened]: isOpen ?? false,
         [cls.isClosing]: isClosing,
     };
 
