@@ -1,6 +1,7 @@
-import { Country, Currency } from 'shared/const/common';
+import { Currency } from 'entities/Currency';
+import { Country } from 'entities/Country';
 
-export interface Profile {
+export interface Profile extends Partial<{
     first: string;
     lastname: string;
     age: number,
@@ -9,10 +10,12 @@ export interface Profile {
     city: string,
     username: string;
     avatar: string;
+}> {
 }
 
 export interface ProfileSchema {
     data?: Profile;
+    form?: Profile;
     isLoading: boolean;
     error?: string;
     readonly: boolean;

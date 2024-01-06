@@ -12,5 +12,8 @@
   "Форма авторизации": "Authorization form",
   "Вы ввели неверный логин или пароль": "You entered wrong username or password",
   "Выйти": "Logout",
-  "PROFILE PAGE": "PROFILE PAGE"
+  "PROFILE PAGE": "PROFILE PAGE",
+  "Рубль": "Рубль",
+  "Доллар": "Доллар",
+  "Евро": "Евро"
 }
