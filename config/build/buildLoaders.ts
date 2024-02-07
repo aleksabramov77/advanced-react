@@ -1,17 +1,25 @@
 import { RuleSetRule } from 'webpack';
+import { buildCssLoader } from './loaders/buildCssLoader';
 import { BuildOptions } from './types/config';
-import { buildCssLoader } from './loaders/buildCssLoaders';
+import { buildBabelLoader } from './loaders/buildBabelLoader';
 
-export function buildLoaders({ isDev }: BuildOptions): RuleSetRule[] {
-    const typescriptLoader: RuleSetRule = {
+export function buildLoaders(options: BuildOptions): RuleSetRule[] {
+    const { isDev } = options;
+
+    const svgLoader = {
+        test: /\.svg$/,
+        use: ['@svgr/webpack'],
+    };
+
+    const babelLoader = buildBabelLoader(options);
+
+    const cssLoader = buildCssLoader(isDev);
+
+    // Если не используем тайпскрипт - нужен babel-loader
+    const typescriptLoader = {
         test: /\.tsx?$/,
         use: 'ts-loader',
         exclude: /node_modules/,
-    };
-
-    const svgLoader: RuleSetRule = {
-        test: /\.svg$/,
-        use: ['@svgr/webpack'],
     };
 
     const fileLoader = {
@@ -23,11 +31,10 @@ export function buildLoaders({ isDev }: BuildOptions): RuleSetRule[] {
         ],
     };
 
-    const cssLoader: RuleSetRule = buildCssLoader(isDev);
-
     return [
         fileLoader,
         svgLoader,
+        babelLoader,
         typescriptLoader,
         cssLoader,
     ];
