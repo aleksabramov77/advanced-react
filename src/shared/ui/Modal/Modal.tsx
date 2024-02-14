@@ -1,6 +1,7 @@
 import { classNames, Mods } from 'shared/lib/classNames/classNames';
 import React, {
-    MouseEventHandler, ReactNode, useCallback, useEffect, useRef, useState,
+    MutableRefObject,
+    ReactNode, useCallback, useEffect, useRef, useState,
 } from 'react';
 import { Portal } from 'shared/ui/Portal/Portal';
 import { useTheme } from 'app/providers/ThemeProvider';
@@ -10,9 +11,8 @@ interface ModalProps {
     className?: string;
     children?: ReactNode;
     isOpen?: boolean;
-    isLazy?: boolean;
-
-    onClose?(): void;
+    onClose?: () => void;
+    lazy?: boolean;
 }
 
 const ANIMATION_DELAY = 300;
@@ -22,14 +22,20 @@ export const Modal = (props: ModalProps) => {
         className,
         children,
         isOpen,
-        isLazy,
         onClose,
+        lazy,
     } = props;
 
     const [isClosing, setIsClosing] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
-    const timerRef = useRef() as React.MutableRefObject<ReturnType<typeof setTimeout>>;
+    const timerRef = useRef() as MutableRefObject<ReturnType<typeof setTimeout>>;
     const { theme } = useTheme();
+
+    useEffect(() => {
+        if (isOpen) {
+            setIsMounted(true);
+        }
+    }, [isOpen]);
 
     const closeHandler = useCallback(() => {
         if (onClose) {
@@ -48,7 +54,7 @@ export const Modal = (props: ModalProps) => {
         }
     }, [closeHandler]);
 
-    const onContentClick: MouseEventHandler = (e) => {
+    const onContentClick = (e: React.MouseEvent) => {
         e.stopPropagation();
     };
 
@@ -63,26 +69,23 @@ export const Modal = (props: ModalProps) => {
         };
     }, [isOpen, onKeyDown]);
 
-    useEffect(() => {
-        if (isOpen) {
-            setIsMounted(true);
-        }
-    }, [isOpen]);
-
     const mods: Mods = {
-        [cls.opened]: isOpen ?? false,
+        [cls.opened]: isOpen,
         [cls.isClosing]: isClosing,
     };
 
-    if (isLazy && !isMounted) {
+    if (lazy && !isMounted) {
         return null;
     }
 
     return (
         <Portal>
-            <div className={classNames(cls.root, mods, [className, theme, 'app-modal'])}>
+            <div className={classNames(cls.Modal, mods, [className, theme, 'app_modal'])}>
                 <div className={cls.overlay} onClick={closeHandler}>
-                    <div className={cls.content} onClick={onContentClick}>
+                    <div
+                        className={cls.content}
+                        onClick={onContentClick}
+                    >
                         {children}
                     </div>
                 </div>

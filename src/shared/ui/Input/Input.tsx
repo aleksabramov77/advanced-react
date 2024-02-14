@@ -9,20 +9,20 @@ type HTMLInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'onC
 interface InputProps extends HTMLInputProps {
     className?: string;
     value?: string | number;
+    onChange?: (value: string) => void;
     autofocus?: boolean;
     readonly?: boolean;
-    onChange?(value: string): void;
 }
 
 export const Input = memo((props: InputProps) => {
     const {
         className,
         value,
+        onChange,
         type = 'text',
         placeholder,
         autofocus,
         readonly,
-        onChange,
         ...otherProps
     } = props;
     const ref = useRef<HTMLInputElement>(null);
@@ -38,16 +38,16 @@ export const Input = memo((props: InputProps) => {
         }
     }, [autofocus]);
 
-    const onChangeHandler:React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         onChange?.(e.target.value);
         setCaretPosition(e.target.value.length);
     };
 
-    const onBlur:React.FocusEventHandler<HTMLInputElement> = () => {
+    const onBlur = () => {
         setIsFocused(false);
     };
 
-    const onFocus:React.FocusEventHandler<HTMLInputElement> = () => {
+    const onFocus = () => {
         setIsFocused(true);
     };
 
@@ -60,7 +60,7 @@ export const Input = memo((props: InputProps) => {
     };
 
     return (
-        <div className={classNames(cls.root, mods, [className])}>
+        <div className={classNames(cls.InputWrapper, {}, [className])}>
             {placeholder && (
                 <div className={cls.placeholder}>
                     {`${placeholder}>`}

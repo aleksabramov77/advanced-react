@@ -1,11 +1,11 @@
-import { useCallback } from 'react';
 import { classNames } from 'shared/lib/classNames/classNames';
 import { Text } from 'shared/ui/Text/Text';
+import { Button, ButtonTheme } from 'shared/ui/Button/Button';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
+import { useDispatch, useSelector } from 'react-redux';
 import { getProfileReadonly, profileActions, updateProfileData } from 'entities/Profile';
-import { useSelector } from 'react-redux';
-import { Button, ButtonTheme } from 'shared/ui/Button';
+import { useCallback } from 'react';
+import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch/useAppDispatch';
 import cls from './ProfilePageHeader.module.scss';
 
 interface ProfilePageHeaderProps {

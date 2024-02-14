@@ -1,22 +1,32 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
+import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { StoreDecorator, ThemeDecorator } from 'shared/config/storybook';
+import { ThemeDecorator } from 'shared/config/storybook/ThemeDecorator/ThemeDecorator';
 import { Theme } from 'app/providers/ThemeProvider';
-import { Navbar } from 'widgets/Navbar';
+import { StoreDecorator } from 'shared/config/storybook/StoreDecorator/StoreDecorator';
+import { Navbar } from './Navbar';
 
-const meta = {
-    title: 'widgets/Navbar',
+export default {
+    title: 'widget/Navbar',
     component: Navbar,
-    tags: ['autodocs'],
-    decorators: [StoreDecorator({})],
-} satisfies Meta<typeof Navbar>;
+    argTypes: {
+        backgroundColor: { control: 'color' },
+    },
+} as ComponentMeta<typeof Navbar>;
 
-export default meta;
+const Template: ComponentStory<typeof Navbar> = (args) => <Navbar {...args} />;
 
-type Story = StoryObj<typeof meta>;
+export const Light = Template.bind({});
+Light.args = {};
+Light.decorators = [StoreDecorator({
 
-export const Light: Story = {};
+})];
+export const Dark = Template.bind({});
+Dark.args = {};
+Dark.decorators = [ThemeDecorator(Theme.DARK), StoreDecorator({})];
 
-export const Dark: Story = {
-    decorators: [ThemeDecorator(Theme.DARK)],
-};
+export const AuthNavbar = Template.bind({});
+AuthNavbar.args = {};
+AuthNavbar.decorators = [StoreDecorator({
+    user: { authData: {} },
+})];

@@ -1,7 +1,7 @@
-import React, { memo, useCallback, useState } from 'react';
 import { classNames } from 'shared/lib/classNames/classNames';
-import { Button, ButtonTheme } from 'shared/ui/Button';
 import { useTranslation } from 'react-i18next';
+import React, { memo, useCallback, useState } from 'react';
+import { Button, ButtonTheme } from 'shared/ui/Button/Button';
 import { LoginModal } from 'features/AuthByUserName';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserAuthData, userActions } from 'entities/User';
@@ -13,29 +13,29 @@ interface NavbarProps {
 
 export const Navbar = memo(({ className }: NavbarProps) => {
     const { t } = useTranslation();
-    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+    const [isAuthModal, setIsAuthModal] = useState(false);
     const authData = useSelector(getUserAuthData);
     const dispatch = useDispatch();
 
-    const handleAuthModalOpen = useCallback(() => {
-        setIsAuthModalOpen(true);
+    const onCloseModal = useCallback(() => {
+        setIsAuthModal(false);
     }, []);
 
-    const handleAuthModalClose = useCallback(() => {
-        setIsAuthModalOpen(false);
+    const onShowModal = useCallback(() => {
+        setIsAuthModal(true);
     }, []);
 
-    const handleLogout = useCallback(() => {
+    const onLogout = useCallback(() => {
         dispatch(userActions.logout());
     }, [dispatch]);
 
     if (authData) {
         return (
-            <div className={classNames(cls.root, {}, [className])}>
+            <div className={classNames(cls.Navbar, {}, [className])}>
                 <Button
                     theme={ButtonTheme.CLEAR_INVERTED}
-                    onClick={handleLogout}
                     className={cls.links}
+                    onClick={onLogout}
                 >
                     {t('Выйти')}
                 </Button>
@@ -44,17 +44,19 @@ export const Navbar = memo(({ className }: NavbarProps) => {
     }
 
     return (
-        <div className={classNames(cls.root, {}, [className])}>
+        <div className={classNames(cls.Navbar, {}, [className])}>
             <Button
                 theme={ButtonTheme.CLEAR_INVERTED}
-                onClick={handleAuthModalOpen}
                 className={cls.links}
+                onClick={onShowModal}
             >
                 {t('Войти')}
             </Button>
-
-            {isAuthModalOpen && (
-                <LoginModal onClose={handleAuthModalClose} isOpen={isAuthModalOpen} />
+            {isAuthModal && (
+                <LoginModal
+                    isOpen={isAuthModal}
+                    onClose={onCloseModal}
+                />
             )}
         </div>
     );

@@ -42,7 +42,7 @@ describe('profileSlice.test', () => {
 
         expect(profileReducer(
             state as ProfileSchema,
-            profileActions.updateProfileData({
+            profileActions.updateProfile({
                 username: '123456',
             }),
         )).toEqual({

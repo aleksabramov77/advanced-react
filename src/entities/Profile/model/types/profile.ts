@@ -1,5 +1,5 @@
-import { Currency } from 'entities/Currency';
-import { Country } from 'entities/Country';
+import { Currency } from 'entities/Currency/model/types/currency';
+import { Country } from 'entities/Country/model/types/country';
 
 export enum ValidateProfileError {
     INCORRECT_USER_DATA = 'INCORRECT_USER_DATA',
@@ -9,16 +9,15 @@ export enum ValidateProfileError {
     SERVER_ERROR = 'SERVER_ERROR',
 }
 
-export interface Profile extends Partial<{
-    first: string;
-    lastname: string;
-    age: number,
-    currency: Currency,
-    country: Country;
-    city: string,
-    username: string;
-    avatar: string;
-}> {
+export interface Profile {
+    first?: string;
+    lastname?: string;
+    age?: number,
+    currency?: Currency,
+    country?: Country;
+    city?: string,
+    username?: string;
+    avatar?: string;
 }
 
 export interface ProfileSchema {

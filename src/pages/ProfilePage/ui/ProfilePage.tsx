@@ -1,7 +1,6 @@
-import { useCallback, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { classNames } from 'shared/lib/classNames/classNames';
-import { DynamicModuleLoader, ReducersList } from 'shared/lib/components/DynamicModuleLoader';
+import { useTranslation } from 'react-i18next';
+import { DynamicModuleLoader, ReducersList } from 'shared/lib/components/DynamicModuleLoader/DynamicModuleLoader';
 import {
     fetchProfileData,
     getProfileError,
@@ -11,15 +10,15 @@ import {
     getProfileValidateErrors,
     profileActions,
     ProfileCard,
-    profileReducer,
-    ValidateProfileError,
+    profileReducer, ValidateProfileError,
 } from 'entities/Profile';
-import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
+import { useCallback, useEffect } from 'react';
+import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch/useAppDispatch';
+import { useSelector } from 'react-redux';
 import { Currency } from 'entities/Currency';
 import { Country } from 'entities/Country';
 import { Text, TextTheme } from 'shared/ui/Text/Text';
-import { t } from 'i18next';
-import { ProfilePageHeader } from './ProfilePageHeader';
+import { ProfilePageHeader } from './ProfilePageHeader/ProfilePageHeader';
 
 const reducers: ReducersList = {
     profile: profileReducer,
@@ -30,13 +29,13 @@ interface ProfilePageProps {
 }
 
 const ProfilePage = ({ className }: ProfilePageProps) => {
+    const { t } = useTranslation('profile');
     const dispatch = useAppDispatch();
-
     const formData = useSelector(getProfileForm);
     const isLoading = useSelector(getProfileIsLoading);
     const error = useSelector(getProfileError);
     const readonly = useSelector(getProfileReadonly);
-    const validationErrors = useSelector(getProfileValidateErrors);
+    const validateErrors = useSelector(getProfileValidateErrors);
 
     const validateErrorTranslates = {
         [ValidateProfileError.SERVER_ERROR]: t('Серверная ошибка при сохранении'),
@@ -52,63 +51,62 @@ const ProfilePage = ({ className }: ProfilePageProps) => {
         }
     }, [dispatch]);
 
-    const handleChangeFirstname = useCallback((value?: string) => {
-        dispatch(profileActions.updateProfileData({ first: value }));
+    const onChangeFirstname = useCallback((value?: string) => {
+        dispatch(profileActions.updateProfile({ first: value || '' }));
     }, [dispatch]);
 
-    const handleChangeLastname = useCallback((value?: string) => {
-        dispatch(profileActions.updateProfileData({ lastname: value }));
+    const onChangeLastname = useCallback((value?: string) => {
+        dispatch(profileActions.updateProfile({ lastname: value || '' }));
     }, [dispatch]);
 
-    const handleChangeAge = useCallback((value?: string) => {
-        dispatch(profileActions.updateProfileData({ age: Number(value) }));
+    const onChangeCity = useCallback((value?: string) => {
+        dispatch(profileActions.updateProfile({ city: value || '' }));
     }, [dispatch]);
 
-    const handleChangeCity = useCallback((value?: string) => {
-        dispatch(profileActions.updateProfileData({ city: value }));
+    const onChangeAge = useCallback((value?: string) => {
+        dispatch(profileActions.updateProfile({ age: Number(value || 0) }));
     }, [dispatch]);
 
-    const handleChangeUsername = useCallback((value?: string) => {
-        dispatch(profileActions.updateProfileData({ username: value }));
+    const onChangeUsername = useCallback((value?: string) => {
+        dispatch(profileActions.updateProfile({ username: value || '' }));
     }, [dispatch]);
 
-    const handleChangeAvatar = useCallback((value?: string) => {
-        dispatch(profileActions.updateProfileData({ avatar: value }));
+    const onChangeAvatar = useCallback((value?: string) => {
+        dispatch(profileActions.updateProfile({ avatar: value || '' }));
     }, [dispatch]);
 
-    const handleChangeCurrency = useCallback((value?: Currency) => {
-        dispatch(profileActions.updateProfileData({ currency: value }));
+    const onChangeCurrency = useCallback((currency: Currency) => {
+        dispatch(profileActions.updateProfile({ currency }));
     }, [dispatch]);
 
-    const handleChangeCountry = useCallback((value?: Country) => {
-        dispatch(profileActions.updateProfileData({ country: value }));
+    const onChangeCountry = useCallback((country: Country) => {
+        dispatch(profileActions.updateProfile({ country }));
     }, [dispatch]);
 
     return (
         <DynamicModuleLoader reducers={reducers} removeAfterUnmount>
             <div className={classNames('', {}, [className])}>
                 <ProfilePageHeader />
-                {validationErrors?.length && validationErrors.map((error) => (
+                {validateErrors?.length && validateErrors.map((err) => (
                     <Text
-                        key={error}
+                        key={err}
                         theme={TextTheme.ERROR}
-                        text={validateErrorTranslates[error]}
-
+                        text={validateErrorTranslates[err]}
                     />
                 ))}
                 <ProfileCard
                     data={formData}
                     isLoading={isLoading}
                     error={error}
-                    onChangeFirstname={handleChangeFirstname}
-                    onChangeLastname={handleChangeLastname}
-                    onChangeAge={handleChangeAge}
-                    onChangeCity={handleChangeCity}
-                    onChangeUsername={handleChangeUsername}
-                    onChangeAvatar={handleChangeAvatar}
-                    onChangeCurrency={handleChangeCurrency}
-                    onChangeCountry={handleChangeCountry}
                     readonly={readonly}
+                    onChangeFirstname={onChangeFirstname}
+                    onChangeLastname={onChangeLastname}
+                    onChangeAge={onChangeAge}
+                    onChangeCity={onChangeCity}
+                    onChangeUsername={onChangeUsername}
+                    onChangeAvatar={onChangeAvatar}
+                    onChangeCurrency={onChangeCurrency}
+                    onChangeCountry={onChangeCountry}
                 />
             </div>
         </DynamicModuleLoader>
